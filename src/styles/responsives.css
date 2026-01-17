@@ -91,16 +91,6 @@
     align-items: center;
   }
 
-  /* Show brand text on tablet and up */
-  .brand-name__link__text {
-    display: inline;
-  }
-
-  .brand-name__link__image {
-    width: 40px;
-    height: 40px;
-  }
-
   /* MAIN */
   /* LOGIN & REGISTER */
   .register-form,
