@@ -1,0 +1,259 @@
+/* ============================================
+   RESPONSIVE STYLES - Mobile First Approach
+   ============================================ */
+
+/* Animations for view transitions */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes fade-out {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes slide-to-left {
+  to {
+    transform: translateX(-30px);
+  }
+}
+
+@keyframes slide-from-right {
+  from {
+    transform: translateX(30px);
+  }
+}
+
+/* ============================================
+   SMALL SCREENS (Mobile)
+   ============================================ */
+
+/* Mobile-specific adjustments */
+@media screen and (max-width: 599px) {
+  .container {
+    padding-inline: 16px;
+  }
+
+  .section-title {
+    font-size: 1.75rem !important;
+    padding-block: 24px 20px !important;
+  }
+
+  /* Hide map container border radius on very small screens */
+  .reports-list__map__container {
+    margin-inline: 0;
+    border-radius: 0;
+  }
+
+  /* Adjust install banner for small screens */
+  .install-banner__content {
+    padding: 12px;
+    gap: 12px;
+  }
+
+  .install-banner__icon img {
+    width: 40px;
+    height: 40px;
+  }
+
+  .install-banner__text strong {
+    font-size: 0.875rem;
+  }
+
+  .install-banner__btn {
+    padding: 8px 16px;
+    font-size: 0.8rem;
+  }
+}
+
+/* ============================================
+   MEDIUM SCREENS (Tablet)
+   ============================================ */
+
+@media screen and (min-width: 600px) {
+  ::view-transition-old(root) {
+    animation:
+      fade-out 90ms cubic-bezier(0.4, 0, 1, 1) both,
+      slide-to-left 300ms cubic-bezier(0.4, 0, 0.2, 1) both;
+  }
+
+  ::view-transition-new(root) {
+    animation:
+      fade-in 210ms cubic-bezier(0, 0, 0.2, 1) 90ms both,
+      slide-from-right 300ms cubic-bezier(0.4, 0, 0.2, 1) both;
+  }
+
+  form .form-buttons {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  /* Show brand text on tablet and up */
+  .brand-name__link__text {
+    display: inline;
+  }
+
+  .brand-name__link__image {
+    width: 40px;
+    height: 40px;
+  }
+
+  /* MAIN */
+  /* LOGIN & REGISTER */
+  .register-form,
+  .login-form {
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-md);
+  }
+
+  /* Report detail */
+  .report-detail__images {
+    height: 400px;
+  }
+
+  .report-detail__body-container {
+    inset-block-start: -150px;
+  }
+
+  /* Report items - 2 columns */
+  .reports-list {
+    grid-template-columns: repeat(2, minmax(280px, 1fr));
+  }
+
+  /* New documentations */
+  .new-form__documentations__buttons {
+    flex-direction: row;
+  }
+
+  .new-form__documentations__outputs {
+    grid-template-columns: repeat(2, minmax(200px, 300px));
+  }
+}
+
+/* ============================================
+   LARGE SCREENS (Small Desktop)
+   ============================================ */
+
+@media screen and (min-width: 800px) {
+  /* MAIN */
+  .reports-list__map__container,
+  .reports-list__map {
+    height: 500px;
+  }
+
+  .reports-list {
+    grid-template-columns: repeat(2, minmax(300px, 1fr));
+    gap: 24px;
+  }
+
+  /* Report detail */
+  .report-detail__body-container {
+    inset-block-start: -200px;
+  }
+
+  .report-detail__images {
+    height: 500px;
+  }
+
+  /* New documentations */
+  .new-form__documentations__outputs {
+    grid-template-columns: repeat(3, minmax(200px, 300px));
+  }
+
+  /* FOOTER */
+  .footer-content {
+    justify-content: space-between;
+  }
+}
+
+/* ============================================
+   EXTRA LARGE SCREENS (Desktop)
+   ============================================ */
+
+@media screen and (min-width: 1000px) {
+  /* HEADER */
+  .header-content {
+    min-height: 64px;
+  }
+
+  .navigation-drawer {
+    min-height: auto;
+    width: auto;
+    padding: 0;
+    background-color: transparent;
+
+    flex-grow: 1;
+    flex-direction: row;
+    justify-content: space-between;
+
+    position: static;
+    transform: translateX(0);
+    opacity: 1;
+  }
+
+  .navigation-drawer__navlist-main,
+  .navigation-drawer__navlist {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  .navigation-drawer__navlist-main li a,
+  .navigation-drawer__navlist li a,
+  .navigation-drawer__navlist li button {
+    padding: 8px 16px;
+    border-radius: var(--radius-md);
+    transition: var(--transition-fast);
+  }
+
+  .navigation-drawer__navlist-main li a:hover,
+  .navigation-drawer__navlist li a:hover {
+    background-color: var(--bg-tertiary);
+  }
+
+  .header-content__nav-list li a {
+    display: inline-flex;
+  }
+
+  .drawer-button {
+    display: none;
+  }
+
+  /* MAIN */
+  .reports-list__map__container,
+  .reports-list__map {
+    height: 600px;
+  }
+
+  .reports-list {
+    grid-template-columns: repeat(3, minmax(300px, 1fr));
+  }
+
+  .report-detail__images {
+    height: 600px;
+  }
+
+  /* Cards with better hover on desktop */
+  .report-item:hover {
+    transform: translateY(-4px);
+  }
+}
+
+/* ============================================
+   ULTRA WIDE SCREENS
+   ============================================ */
+
+@media screen and (min-width: 1400px) {
+  .reports-list {
+    grid-template-columns: repeat(4, minmax(280px, 1fr));
+  }
+
+  .container {
+    max-width: 1400px;
+  }
+}
+
