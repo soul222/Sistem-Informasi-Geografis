@@ -173,11 +173,16 @@
     min-height: auto;
     width: auto;
     padding: 0;
+    margin-left: auto;
     background-color: transparent;
+    backdrop-filter: none;
+    box-shadow: none;
 
-    flex-grow: 1;
+    flex-grow: 0;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 32px;
 
     position: static;
     transform: translateX(0);
@@ -188,16 +193,19 @@
   .navigation-drawer__navlist {
     flex-direction: row;
     align-items: center;
-    justify-content: space-between;
-    gap: 8px;
+    gap: 12px;
+    border-bottom: none;
+    padding-bottom: 0;
   }
 
   .navigation-drawer__navlist-main li a,
   .navigation-drawer__navlist li a,
   .navigation-drawer__navlist li button {
-    padding: 8px 16px;
-    border-radius: var(--radius-md);
+    padding: 10px 18px;
+    border-radius: var(--radius-lg);
     transition: var(--transition-fast);
+    font-size: 0.95rem;
+    white-space: nowrap;
   }
 
   .navigation-drawer__navlist-main li a:hover,
