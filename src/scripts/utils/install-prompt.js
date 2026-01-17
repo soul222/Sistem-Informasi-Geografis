@@ -1,10 +1,10 @@
 /**
  * Install Prompt Handler
- * Handles custom PWA install prompt for mobile devices
+ * Handles custom PWA install prompt for all devices
  */
 
 const INSTALL_DISMISSED_KEY = 'installPromptDismissed';
-const INSTALL_DISMISSED_DURATION = 7 * 24 * 60 * 60 * 1000; // 7 days in milliseconds
+const INSTALL_DISMISSED_DURATION = 3 * 24 * 60 * 60 * 1000; // 3 days in milliseconds
 
 let deferredPrompt = null;
 
@@ -24,7 +24,7 @@ export function isAppInstalled() {
 export function isMobileDevice() {
   return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
     navigator.userAgent
-  );
+  ) || window.innerWidth <= 768;
 }
 
 /**
@@ -37,7 +37,6 @@ export function isInstallDismissed() {
   const now = Date.now();
   const dismissedAt = parseInt(dismissedTime, 10);
   
-  // Check if 7 days have passed
   if (now - dismissedAt > INSTALL_DISMISSED_DURATION) {
     localStorage.removeItem(INSTALL_DISMISSED_KEY);
     return false;
@@ -62,24 +61,34 @@ export function isIOS() {
 }
 
 /**
+ * Check if it's Safari browser
+ */
+export function isSafari() {
+  return /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+}
+
+/**
  * Show the install banner
  */
 export function showInstallBanner() {
   const existingBanner = document.getElementById('install-banner');
   if (existingBanner) return;
 
+  console.log('[InstallPrompt] Showing install banner');
+
   const banner = document.createElement('div');
   banner.id = 'install-banner';
   banner.className = 'install-banner';
   
-  if (isIOS()) {
+  if (isIOS() || (isSafari() && !deferredPrompt)) {
+    // iOS/Safari doesn't support beforeinstallprompt
     banner.innerHTML = `
       <div class="install-banner__content">
         <div class="install-banner__icon">
-          <img src="images/logo.png" alt="CityCare" />
+          <img src="images/logo.png" alt="JagaKota" />
         </div>
         <div class="install-banner__text">
-          <strong>Install CityCare App</strong>
+          <strong>📱 Install JagaKota</strong>
           <p>Ketuk <i class="fas fa-share-square"></i> lalu "Add to Home Screen"</p>
         </div>
         <button id="install-banner-close" class="install-banner__close" aria-label="Tutup">
@@ -88,18 +97,19 @@ export function showInstallBanner() {
       </div>
     `;
   } else {
+    // Android/Chrome with beforeinstallprompt support
     banner.innerHTML = `
       <div class="install-banner__content">
         <div class="install-banner__icon">
-          <img src="images/logo.png" alt="CityCare" />
+          <img src="images/logo.png" alt="JagaKota" />
         </div>
         <div class="install-banner__text">
-          <strong>Install CityCare App</strong>
-          <p>Akses lebih cepat & notifikasi langsung</p>
+          <strong>📱 Install JagaKota</strong>
+          <p>Akses lebih cepat & notifikasi real-time!</p>
         </div>
         <div class="install-banner__actions">
           <button id="install-banner-install" class="install-banner__btn install-banner__btn--primary">
-            Install
+            <i class="fas fa-download"></i> Install
           </button>
           <button id="install-banner-close" class="install-banner__close" aria-label="Tutup">
             <i class="fas fa-times"></i>
@@ -122,10 +132,10 @@ export function showInstallBanner() {
     installBtn.addEventListener('click', triggerInstall);
   }
 
-  // Animate in
-  requestAnimationFrame(() => {
+  // Animate in after a small delay
+  setTimeout(() => {
     banner.classList.add('install-banner--visible');
-  });
+  }, 100);
 }
 
 /**
@@ -146,7 +156,8 @@ export function hideInstallBanner() {
  */
 export async function triggerInstall() {
   if (!deferredPrompt) {
-    console.log('[InstallPrompt] No deferred prompt available');
+    console.log('[InstallPrompt] No deferred prompt available, showing manual instructions');
+    alert('Untuk menginstall aplikasi:\n\n1. Buka menu browser (⋮)\n2. Pilih "Install app" atau "Add to Home Screen"');
     return;
   }
 
@@ -168,15 +179,11 @@ export async function triggerInstall() {
  * Initialize the install prompt handler
  */
 export function initInstallPrompt() {
+  console.log('[InstallPrompt] Initializing...');
+
   // Don't show if already installed
   if (isAppInstalled()) {
     console.log('[InstallPrompt] App already installed');
-    return;
-  }
-
-  // Don't show on desktop
-  if (!isMobileDevice()) {
-    console.log('[InstallPrompt] Not a mobile device');
     return;
   }
 
@@ -186,7 +193,7 @@ export function initInstallPrompt() {
     return;
   }
 
-  // Listen for the beforeinstallprompt event
+  // Listen for the beforeinstallprompt event (Chrome/Android)
   window.addEventListener('beforeinstallprompt', (e) => {
     // Prevent the mini-infobar from appearing on mobile
     e.preventDefault();
@@ -200,13 +207,15 @@ export function initInstallPrompt() {
     showInstallBanner();
   });
 
-  // For iOS, show the banner after a short delay
-  if (isIOS()) {
+  // For iOS/Safari or browsers without beforeinstallprompt, show banner after delay
+  // Only show on mobile devices
+  if (isMobileDevice()) {
     setTimeout(() => {
-      if (!isAppInstalled() && !isInstallDismissed()) {
+      if (!isAppInstalled() && !isInstallDismissed() && !document.getElementById('install-banner')) {
+        console.log('[InstallPrompt] Showing fallback banner for mobile');
         showInstallBanner();
       }
-    }, 3000);
+    }, 2000); // Show after 2 seconds
   }
 
   // Listen for successful installation
@@ -216,3 +225,4 @@ export function initInstallPrompt() {
     deferredPrompt = null;
   });
 }
+

@@ -330,12 +330,14 @@ header {
 .navigation-drawer {
   min-height: 100vh;
   width: 100%;
-  padding: 20px 10px;
-  background-color: white;
+  padding: var(--spacing-lg);
+  background: linear-gradient(180deg, rgba(255,255,255,0.98) 0%, rgba(250,250,250,0.98) 100%);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
 
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: var(--spacing-lg);
 
   position: fixed;
   inset-block-start: 0;
@@ -344,33 +346,43 @@ header {
   transform: translateY(-100%);
   opacity: 0;
   transition:
-    opacity 150ms,
-    inset-block-start 0ms 150ms,
-    transform 0ms 150ms;
+    opacity 200ms ease,
+    transform 300ms ease;
 
   z-index: 9999;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
 }
 
 .navigation-drawer.open {
-  inset-block-start: 90px;
+  inset-block-start: 60px;
   transform: translateY(0);
   opacity: 1;
-
-  transition: opacity 150ms;
+  transition: 
+    opacity 200ms ease,
+    transform 300ms ease;
 }
 
 .drawer-button {
   background-color: transparent;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   padding: 8px;
   border: 0;
-  border-radius: 4px;
+  border-radius: var(--radius-md);
+  width: 44px;
+  height: 44px;
 
   font-weight: bold;
-  font-size: 28px;
-  color: #141e16;
+  font-size: 24px;
+  color: var(--text-primary);
 
   cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.drawer-button:hover {
+  background-color: var(--bg-tertiary);
 }
 
 .navigation-drawer__navlist-main,
@@ -379,17 +391,12 @@ header {
 
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: var(--spacing-xs);
 }
 
-.navigation-drawer__navlist-main li a,
-.navigation-drawer__navlist-main li button {
-  color: #5d5d5d;
-}
-
-.navigation-drawer__navlist li a,
-.navigation-drawer__navlist li button {
-  color: #5d5d5d;
+.navigation-drawer__navlist-main {
+  padding-bottom: var(--spacing-md);
+  border-bottom: 1px solid var(--border-light);
 }
 
 .navigation-drawer__navlist-main li a,
@@ -397,41 +404,80 @@ header {
 .navigation-drawer__navlist li a,
 .navigation-drawer__navlist li button {
   width: 100%;
-  padding: 6px 10px;
+  padding: 14px 16px;
+  border-radius: var(--radius-lg);
 
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
 
   text-decoration: none;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--text-primary);
+
+  transition: var(--transition-fast);
 }
 
-.navigation-drawer__navlist-main li a:hover {
-  color: #09090b;
-  text-shadow: 0 0 1px black;
+.navigation-drawer__navlist-main li a:hover,
+.navigation-drawer__navlist li a:hover {
+  background-color: var(--bg-tertiary);
+  color: var(--primary-color);
+}
+
+.navigation-drawer__navlist-main li a i,
+.navigation-drawer__navlist li a i,
+.navigation-drawer__navlist li button i {
+  width: 20px;
+  text-align: center;
+  font-size: 1.1rem;
+}
+
+/* New Report Button - Prominent */
+.new-report-button {
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-hover-color) 100%) !important;
+  color: white !important;
+  font-weight: 600 !important;
+  box-shadow: 0 4px 15px rgba(11, 94, 215, 0.3);
+}
+
+.new-report-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(11, 94, 215, 0.4) !important;
 }
 
 .logout-button {
-  background-color: transparent;
-  border-radius: 4px;
+  background-color: rgba(239, 68, 68, 0.1) !important;
+  border-radius: var(--radius-lg);
 
-  color: #ff0000 !important;
+  color: #ef4444 !important;
   font-weight: 600;
+}
+
+.logout-button:hover {
+  background-color: rgba(239, 68, 68, 0.15) !important;
 }
 
 /* MAIN */
 .main-content {
   min-height: 70vh;
+  background-color: var(--bg-primary);
 }
 
 .main-content > :not([hidden]) ~ :not([hidden]) {
-  margin-block-start: 30px;
+  margin-block-start: 0;
 }
 
 .main-content .section-title {
   text-align: center;
-  font-size: 2.5rem;
-  padding-block: 50px 40px;
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  padding-block: var(--spacing-lg);
+  margin: 0;
+  background-color: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-light);
+  letter-spacing: -0.5px;
 }
 
 /* LOGIN, REGISTER PAGE */
