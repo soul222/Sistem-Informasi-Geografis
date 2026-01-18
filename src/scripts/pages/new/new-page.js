@@ -138,13 +138,18 @@ export default class NewPage {
                 </div>
                 <div class="new-form__location__lat-lng">
                   <div class="new-form__location__lat">
-                   <label for="latitude">Latitude</label>
-                   <input type="number" name="latitude" value="-6.175389">
+                   <label for="latitude">Latitude (dari peta)</label>
+                   <input type="number" name="latitude" value="-6.175389" readonly style="background-color: #f0f0f0; cursor: not-allowed;">
                   </div>
                   <div class="new-form__location__lng">
-                    <label for="longitude">Longitude</label>
-                    <input type="number" name="longitude" value="106.827139">
+                    <label for="longitude">Longitude (dari peta)</label>
+                    <input type="number" name="longitude" value="106.827139" readonly style="background-color: #f0f0f0; cursor: not-allowed;">
                   </div>
+                </div>
+                <div style="margin-top: 10px; padding: 12px; background-color: #e8f1fd; border-left: 4px solid #0b5ed7; border-radius: 4px;">
+                  <p style="margin: 0; font-size: 0.9rem; color: #084298;">
+                    <i class="fas fa-info-circle"></i> Klik atau geser marker di peta untuk mengubah koordinat
+                  </p>
                 </div>
               </div>
             </div>
